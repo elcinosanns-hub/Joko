@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yayasan Kebajikan Anak-Anak Yatim (YAATIM) Kelantan | Donasi Online QRIS</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        yaatim: {
+                            emerald: '#064e3b',
+                            green: '#047857',
+                            lightgreen: '#10b981',
+                            gold: '#d97706',
+                            goldlight: '#f59e0b',
+                            goldsoft: '#fef3c7',
+                            sand: '#fbfbf8',
+                            dark: '#0f172a'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        arabic: ['Amiri', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .arabic-text {
+            font-family: 'Amiri', serif;
+        }
+        .hero-bg {
+            background: linear-gradient(135deg, rgba(6, 78, 59, 0.93) 0%, rgba(4, 120, 87, 0.89) 100%), url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1600&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+        .pattern-bg {
+            background-color: #fbfbf8;
+            background-image: radial-gradient(#10b981 0.75px, transparent 0.75px), radial-gradient(#10b981 0.75px, #fbfbf8 0.75px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+        }
+        .type-btn.active {
+            border-color: #047857;
+            background-color: #ecfdf5;
+            color: #047857;
+            font-weight: 700;
+        }
+        .amount-btn.active {
+            border-color: #d97706;
+            background-color: #fef3c7;
+            color: #b45309;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="bg-yaatim-sand text-slate-800 font-sans antialiased selection:bg-yaatim-gold selection:text-white">
+
+    <div id="toast" class="fixed bottom-5 right-5 z-50 flex items-center w-full max-w-xs p-4 text-gray-700 bg-white rounded-2xl shadow-2xl transition-all duration-300 transform translate-y-20 opacity-0 border-l-4 border-yaatim-green" role="alert">
+        <div class="inline-flex items-center justify-center flex-shrink-0 w-9 h-9 text-emerald-600 bg-emerald-100 rounded-xl">
+            <i class="fa-solid fa-circle-check text-lg"></i>
+        </div>
+        <div id="toast-message" class="ml-3 text-sm font-medium">Informasi tersalin!</div>
+    </div>
+
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-emerald-100 shadow-sm transition-all duration-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-12 h-12 rounded-2xl bg-yaatim-emerald flex items-center justify-center text-white text-xl font-bold shadow-md group-hover:bg-yaatim-gold transition-colors duration-300">
+                        <i class="fa-solid fa-hands-holding-child"></i>
+                    </div>
+                    <div>
+                        <span class="block text-lg font-extrabold text-yaatim-emerald leading-tight tracking-tight">YAATIM KELANTAN</span>
+                        <span class="block text-xs font-medium text-slate-500">Yayasan Kebajikan Anak-Anak Yatim</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex items-center space-x-8 font-medium text-sm text-slate-700">
+                    <a href="#tentang" class="hover:text-yaatim-green transition-colors py-2">Tentang Kami</a>
+                    <a href="#program" class="hover:text-yaatim-green transition-colors py-2">Program Donasi</a>
+                    <a href="#donasi-form" class="hover:text-yaatim-green transition-colors py-2">Bayar QRIS</a>
+                    <a href="#keunggulan" class="hover:text-yaatim-green transition-colors py-2">Kenapa YAATIM</a>
+                    <a href="#kontak" class="hover:text-yaatim-green transition-colors py-2">Kontak & Lokasi</a>
+                </nav>
+
+                <!-- Header CTA Button -->
+                <div class="hidden sm:flex items-center gap-3">
+                    <a href="#donasi-form" class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-bold text-white bg-yaatim-gold hover:bg-yaatim-goldlight rounded-full shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5">
+                        <i class="fa-solid fa-qrcode mr-2"></i> Donasi QRIS
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-xl text-slate-600 hover:text-yaatim-emerald hover:bg-slate-100 focus:outline-none">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-100 bg-white px-4 pt-3 pb-6 space-y-3">
+            <a href="#tentang" class="block py-2 text-slate-700 font-medium hover:text-yaatim-green">Tentang Kami</a>
+            <a href="#program" class="block py-2 text-slate-700 font-medium hover:text-yaatim-green">Program Donasi</a>
+            <a href="#donasi-form" class="block py-2 text-slate-700 font-medium hover:text-yaatim-green">Bayar QRIS</a>
+            <a href="#keunggulan" class="block py-2 text-slate-700 font-medium hover:text-yaatim-green">Kenapa YAATIM</a>
+            <a href="#kontak" class="block py-2 text-slate-700 font-medium hover:text-yaatim-green">Kontak & Lokasi</a>
+            <a href="#donasi-form" class="block text-center py-3 px-4 font-bold text-white bg-yaatim-gold hover:bg-yaatim-goldlight rounded-2xl shadow-md">
+                <i class="fa-solid fa-qrcode mr-2"></i> Donasi via QRIS
+            </a>
+        </div>
+    </header>
+
+    <section class="hero-bg relative text-white py-16 lg:py-24 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Text Content -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-yaatim-goldsoft text-xs sm:text-sm font-semibold">
+                        <i class="fa-solid fa-star text-yaatim-goldlight"></i>
+                        <span>Sedekah Anda, Senyuman & Masa Depan Mereka</span>
+                    </div>
+
+                    <p class="arabic-text text-2xl sm:text-3xl text-amber-200 font-semibold leading-relaxed">
+                        مَّن ذَا الَّذِي يُقْرِضُ اللَّهَ قَرْضًا حَسَنًا فَيُضَاعِفَهُ لَهُ أَضْعَافًا كَثِيرَةً
+                    </p>
+
+                    <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
+                        Ukir Senyuman & Naungi Masa Depan <span class="text-yaatim-goldlight">Anak Yatim Kelantan</span>
+                    </h1>
+
+                    <p class="text-base sm:text-lg text-emerald-50 max-w-2xl mx-auto lg:mx-0 font-light leading-relaxed">
+                        Yayasan Kebajikan Anak-Anak Yatim Kelantan (YAATIM) berkomitmen penuh menyediakan tempat tinggal, pendidikan berkualiti, serta asuhan penuh kasih sayang untuk anak-anak yatim dan dhuafa.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-2">
+                        <a href="#donasi-form" class="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-slate-900 bg-yaatim-goldlight hover:bg-amber-400 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                            <i class="fa-solid fa-qrcode mr-2 text-lg"></i> Donasi Sekarang via QRIS
+                        </a>
+                        <a href="#tentang" class="inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-white bg-white/10 hover:bg-white/20 border border-white/30 backdrop-blur-md rounded-full transition-all duration-300">
+                            <i class="fa-solid fa-circle-info mr-2"></i> Pelajari Lebih Lanjut
+                        </a>
+                    </div>
+
+                    <!-- Trust Stats -->
+                    <div class="pt-8 border-t border-white/10 grid grid-cols-3 gap-4 text-center lg:text-left">
+                        <div>
+                            <span class="block text-2xl font-black text-amber-300">100%</span>
+                            <span class="text-xs text-emerald-100">Transparan & Amanah</span>
+                        </div>
+                        <div>
+                            <span class="block text-2xl font-black text-amber-300">500+</span>
+                            <span class="text-xs text-emerald-100">Anak Yatim Dibantu</span>
+                        </div>
+                        <div>
+                            <span class="block text-2xl font-black text-amber-300">Resmi</span>
+                            <span class="text-xs text-emerald-100">Yayasan Terdaftar</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Quick Donation Widget -->
+                <div class="lg:col-span-5">
+                    <div class="bg-white text-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl border border-emerald-100 relative">
+                        <div class="absolute -top-3 right-6 bg-yaatim-gold text-white text-[11px] font-extrabold px-3.5 py-1 rounded-full uppercase tracking-wider shadow">
+                            QRIS Instan
+                        </div>
+                        <h3 class="text-xl font-bold text-yaatim-emerald mb-1">Pilih Nominal Donasi</h3>
+                        <p class="text-xs text-slate-500 mb-6">Pilih cepat nominal infak terbaik Anda dalam mata uang Rupiah (Rp).</p>
+
+                        <!-- Quick Nominal Buttons in Rupiah -->
+                        <div class="grid grid-cols-3 gap-3 mb-6">
+                            <button onclick="setQuickAmount(10000)" class="quick-btn p-3 text-center border-2 border-slate-200 rounded-2xl hover:border-yaatim-green hover:bg-emerald-50 transition font-bold text-slate-700 text-xs sm:text-sm">
+                                Rp 10.000
+                            </button>
+                            <button onclick="setQuickAmount(50000)" class="quick-btn p-3 text-center border-2 border-slate-200 rounded-2xl hover:border-yaatim-green hover:bg-emerald-50 transition font-bold text-slate-700 text-xs sm:text-sm">
+                                Rp 50.000
+                            </button>
+                            <button onclick="setQuickAmount(100000)" class="quick-btn p-3 text-center border-2 border-slate-200 rounded-2xl hover:border-yaatim-green hover:bg-emerald-50 transition font-bold text-slate-700 text-xs sm:text-sm">
+                                Rp 100.000
+                            </button>
+                        </div>
+
+                        <a href="#donasi-form" onclick="scrollAndFocusForm()" class="block w-full text-center py-4 bg-yaatim-emerald hover:bg-yaatim-green text-white font-bold rounded-2xl shadow-lg hover:shadow-xl transition duration-300">
+                            Lanjut ke Pindaian QRIS <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </a>
+
+                        <div class="mt-4 text-center">
+                            <span class="text-xs text-slate-500 flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-shield-halved text-emerald-600"></i> Bebas Biaya Layanan • QRIS Nasional
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tentang" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="relative">
+                    <div class="relative z-10 rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
+                        <img src="https://images.unsplash.com/photo-1509099836639-18ba1795216d?q=80&w=1000&auto=format&fit=crop" alt="Anak-Anak Yatim YAATIM" class="w-full h-[400px] object-cover">
+                    </div>
+                    <div class="absolute -bottom-6 -right-6 z-20 bg-yaatim-gold text-white p-6 rounded-2xl shadow-xl hidden sm:block max-w-xs">
+                        <p class="text-3xl font-extrabold mb-1">30+ Tahun</p>
+                        <p class="text-xs text-amber-100">Khidmat melayani, mengasuh, dan mendidik anak-anak yatim & dhuafa.</p>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-yaatim-green text-xs font-bold uppercase tracking-wider">
+                        Tentang Yayasan
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 leading-tight">
+                        Mengasuh Dengan Kasih Sayang, Membina Masa Depan Gemilang
+                    </h2>
+                    <p class="text-slate-600 leading-relaxed text-sm sm:text-base">
+                        <strong>Yayasan Kebajikan Anak-Anak Yatim (YAATIM) Kelantan</strong> merupakan lembaga sosial kebajikan yang berpusat di Kota Bharu, Kelantan. Yayasan ini didirikan khusus untuk memelihara kesejahteraan, menyediakan tempat tinggal yang kondusif, perlindungan, serta memastikan pendidikan yang layak bagi anak-anak yatim dan miskin.
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                        <div class="p-5 rounded-2xl bg-emerald-50/60 border border-emerald-100">
+                            <div class="w-10 h-10 rounded-xl bg-yaatim-emerald text-white flex items-center justify-center text-lg mb-3">
+                                <i class="fa-solid fa-eye"></i>
+                            </div>
+                            <h4 class="font-bold text-slate-900 mb-1">Visi Utama</h4>
+                            <p class="text-xs text-slate-600 leading-relaxed">Menjadi panti dan pusat pendidikan anak yatim terkemuka yang melahirkan generasi beriman, berilmu, dan berakhlak mulia.</p>
+                        </div>
+                        <div class="p-5 rounded-2xl bg-amber-50/60 border border-amber-100">
+                            <div class="w-10 h-10 rounded-xl bg-yaatim-gold text-white flex items-center justify-center text-lg mb-3">
+                                <i class="fa-solid fa-bullseye"></i>
+                            </div>
+                            <h4 class="font-bold text-slate-900 mb-1">Misi Mulia</h4>
+                            <p class="text-xs text-slate-600 leading-relaxed">Menjamin pemenuhan kebutuhan dasar, pendidikan formal & keagamaan, serta pendampingan mental bagi setiap anak binaan.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="program" class="py-20 bg-slate-50 border-y border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="inline-block px-3.5 py-1.5 rounded-full bg-emerald-100 text-yaatim-emerald text-xs font-bold uppercase tracking-wider mb-3">Saluran Infak & Sedekah</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">Program Kebaikan Utama</h2>
+                <p class="text-slate-600 mt-3 text-sm sm:text-base">Pilih program kebaikan yang ingin Anda dukung. Seluruh hasil donasi disalurkan langsung untuk kesejahteraan anak-anak yatim.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Program Card 1 -->
+                <div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col group">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=800&auto=format&fit=crop" alt="Pendidikan Anak Yatim" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-4 left-4 bg-yaatim-emerald text-white text-xs font-semibold px-3 py-1 rounded-full">Pendidikan</span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-900 mb-2 group-hover:text-yaatim-emerald transition-colors">Beasiswa & Perlengkapan Sekolah</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed mb-4">Membantu biaya SPP, buku bimbingan, seragam sekolah, dan biaya ekstrakurikuler anak yatim.</p>
+                        </div>
+                        <button onclick="selectProgram('Beasiswa & Pendidikan Anak Yatim')" class="w-full py-2.5 px-4 rounded-xl border border-yaatim-emerald text-yaatim-emerald font-semibold text-xs hover:bg-yaatim-emerald hover:text-white transition">
+                            Pilih Program Ini
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Program Card 2 -->
+                <div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col group">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=800&auto=format&fit=crop" alt="Makanan & Nutrisi" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-4 left-4 bg-yaatim-gold text-white text-xs font-semibold px-3 py-1 rounded-full">Konsumsi</span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-900 mb-2 group-hover:text-yaatim-emerald transition-colors">Nutrisi & Makanan Harian</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed mb-4">Penyediaan santapan bergizi 3 kali sehari bagi seluruh santri dan penghuni asrama YAATIM.</p>
+                        </div>
+                        <button onclick="selectProgram('Nutrisi & Makanan Harian')" class="w-full py-2.5 px-4 rounded-xl border border-yaatim-emerald text-yaatim-emerald font-semibold text-xs hover:bg-yaatim-emerald hover:text-white transition">
+                            Pilih Program Ini
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Program Card 3 -->
+                <div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col group">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?q=80&w=800&auto=format&fit=crop" alt="Renovasi Asrama" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-4 left-4 bg-emerald-600 text-white text-xs font-semibold px-3 py-1 rounded-full">Fasilitas</span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-900 mb-2 group-hover:text-yaatim-emerald transition-colors">Pemeliharaan & Fasilitas Asrama</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed mb-4">Pemeliharaan ruang tidur, tempat belajar, musholla, dan fasilitas umum panti agar tetap bersih & layak.</p>
+                        </div>
+                        <button onclick="selectProgram('Pemeliharaan Asrama')" class="w-full py-2.5 px-4 rounded-xl border border-yaatim-emerald text-yaatim-emerald font-semibold text-xs hover:bg-yaatim-emerald hover:text-white transition">
+                            Pilih Program Ini
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Program Card 4 -->
+                <div class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col group">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb0?q=80&w=800&auto=format&fit=crop" alt="Infak Umum" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-4 left-4 bg-amber-600 text-white text-xs font-semibold px-3 py-1 rounded-full">Infak Umum</span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-900 mb-2 group-hover:text-yaatim-emerald transition-colors">Tabung Sedekah & Infak Umum</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed mb-4">Donasi fleksibel yang disalurkan sewaktu-waktu sesuai kebutuhan mendesak anak-anak yatim.</p>
+                        </div>
+                        <button onclick="selectProgram('Tabung Sedekah & Infak Umum')" class="w-full py-2.5 px-4 rounded-xl border border-yaatim-emerald text-yaatim-emerald font-semibold text-xs hover:bg-yaatim-emerald hover:text-white transition">
+                            Pilih Program Ini
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="donasi-form" class="py-20 pattern-bg">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden">
+                <!-- Form Header -->
+                <div class="bg-yaatim-emerald text-white p-8 text-center relative overflow-hidden">
+                    <div class="absolute -right-10 -top-10 w-40 h-40 bg-white/5 rounded-full blur-2xl"></div>
+                    <span class="inline-block px-3 py-1 bg-white/10 text-amber-300 rounded-full text-xs font-bold mb-2">
+                        <i class="fa-solid fa-qrcode mr-1"></i> Metode Pembayaran Resmi QRIS
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold mb-2">Formulir Donasi QRIS</h2>
+                    <p class="text-emerald-100 text-xs sm:text-sm max-w-lg mx-auto">Silakan isi data dan tentukan nominal infak Anda dalam Rupiah (Rp). Pembayaran dilakukan praktis dengan memindai QRIS.</p>
+                </div>
+
+                <form id="donationForm" class="p-6 sm:p-10 space-y-8" onsubmit="handleFormSubmit(event)">
+                    
+                    <!-- 1. Kategori / Jenis Donasi -->
+                    <div>
+                        <label class="block text-sm font-bold text-slate-800 mb-3">1. Pilih Kategori Donasi</label>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <button type="button" onclick="setDonationType(this, 'Sekali Donasi')" class="type-btn active text-xs sm:text-sm py-3 px-4 rounded-xl border-2 border-slate-200 text-slate-600 transition text-center">
+                                Sekali Donasi
+                            </button>
+                            <button type="button" onclick="setDonationType(this, 'Rutin Bulanan')" class="type-btn text-xs sm:text-sm py-3 px-4 rounded-xl border-2 border-slate-200 text-slate-600 transition text-center">
+                                Rutin Bulanan
+                            </button>
+                            <button type="button" onclick="setDonationType(this, 'Zakat')" class="type-btn text-xs sm:text-sm py-3 px-4 rounded-xl border-2 border-slate-200 text-slate-600 transition text-center">
+                                Zakat
+                            </button>
+                            <button type="button" onclick="setDonationType(this, 'Infak Subuh')" class="type-btn text-xs sm:text-sm py-3 px-4 rounded-xl border-2 border-slate-200 text-slate-600 transition text-center">
+                                Infak Subuh
+                            </button>
+                        </div>
+                        <input type="hidden" id="selected_type" value="Sekali Donasi">
+                    </div>
+
+                    <!-- 2. Nominal Donasi Dalam Rupiah -->
+                    <div>
+                        <label class="block text-sm font-bold text-slate-800 mb-3">2. Pilih Nominal Donasi (Rupiah / IDR)</label>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5 mb-4">
+                            <button type="button" onclick="selectAmount(10000, this)" class="amount-btn p-3 rounded-2xl border-2 border-slate-200 font-bold text-slate-700 text-xs sm:text-sm hover:border-amber-400 transition">
+                                Rp 10 rb
+                            </button>
+                            <button type="button" onclick="selectAmount(25000, this)" class="amount-btn p-3 rounded-2xl border-2 border-slate-200 font-bold text-slate-700 text-xs sm:text-sm hover:border-amber-400 transition">
+                                Rp 25 rb
+                            </button>
+                            <button type="button" onclick="selectAmount(50000, this)" class="amount-btn active p-3 rounded-2xl border-2 border-amber-500 bg-amber-50 font-bold text-amber-800 text-xs sm:text-sm hover:border-amber-400 transition">
+                                Rp 50 rb
+                            </button>
+                            <button type="button" onclick="selectAmount(100000, this)" class="amount-btn p-3 rounded-2xl border-2 border-slate-200 font-bold text-slate-700 text-xs sm:text-sm hover:border-amber-400 transition">
+                                Rp 100 rb
+                            </button>
+                            <button type="button" onclick="selectAmount(250000, this)" class="amount-btn p-3 rounded-2xl border-2 border-slate-200 font-bold text-slate-700 text-xs sm:text-sm hover:border-amber-400 transition">
+                                Rp 250 rb
+                            </button>
+                            <button type="button" onclick="selectAmount(500000, this)" class="amount-btn p-3 rounded-2xl border-2 border-slate-200 font-bold text-slate-700 text-xs sm:text-sm hover:border-amber-400 transition">
+                                Rp 500 rb
+                            </button>
+                        </div>
+                        
+                        <!-- Custom Amount Input -->
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-4 flex items-center font-bold text-slate-400 text-sm">Rp</span>
+                            <input type="number" id="custom_amount" value="50000" placeholder="Atau ketik nominal kustom (misal: 150000)" min="1000" step="1000" class="w-full pl-12 pr-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-yaatim-green focus:ring-0 font-semibold text-slate-800 text-sm" oninput="clearAmountButtons(); updateDisplayAmount();">
+                        </div>
+                    </div>
+
+                    <!-- 3. Program Pilihan -->
+                    <div>
+                        <label for="program_select" class="block text-sm font-bold text-slate-800 mb-2">3. Program Pilihan Donasi</label>
+                        <select id="program_select" class="w-full p-3 rounded-2xl border-2 border-slate-200 focus:border-yaatim-green focus:ring-0 text-sm font-medium text-slate-700 bg-white">
+                            <option value="Tabung Sedekah & Infak Umum">Tabung Kebajikan & Infak Umum YAATIM</option>
+                            <option value="Beasiswa & Pendidikan Anak Yatim">Beasiswa & Pendidikan Anak Yatim</option>
+                            <option value="Nutrisi & Makanan Harian">Nutrisi & Makanan Harian Santri</option>
+                            <option value="Pemeliharaan Asrama">Pemeliharaan & Perbaikan Asrama</option>
+                        </select>
+                    </div>
+
+                    <!-- 4. Data Donatur -->
+                    <div class="space-y-4 pt-4 border-t border-slate-100">
+                        <h4 class="text-sm font-bold text-slate-800">4. Data Diri Donatur</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Lengkap *</label>
+                                <input type="text" id="donor_name" required placeholder="Hamba Allah / Nama Anda" class="w-full p-3 rounded-xl border border-slate-300 focus:border-yaatim-green focus:ring-0 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Nomor WhatsApp *</label>
+                                <input type="tel" id="donor_phone" required placeholder="Contoh: 081234567890" class="w-full p-3 rounded-xl border border-slate-300 focus:border-yaatim-green focus:ring-0 text-sm">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Alamat E-mail (Opsional)</label>
+                            <input type="email" id="donor_email" placeholder="nama@domain.com" class="w-full p-3 rounded-xl border border-slate-300 focus:border-yaatim-green focus:ring-0 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Doa / Harapan Anda (Opsional)</label>
+                            <textarea id="donor_notes" rows="2" placeholder="Tuliskan doa ikhlas Anda untuk anak-anak yatim..." class="w-full p-3 rounded-xl border border-slate-300 focus:border-yaatim-green focus:ring-0 text-sm"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- 5. Tampilan Kode QRIS -->
+                    <div class="p-6 rounded-3xl bg-slate-50 border-2 border-dashed border-emerald-300 text-center space-y-4">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-100 text-yaatim-emerald rounded-full text-xs font-bold">
+                            <i class="fa-solid fa-qrcode"></i> Pindai Kode QRIS Di Bawah Ini
+                        </div>
+                        
+                        <!-- QR Code Image Card -->
+                        <div class="bg-white p-5 rounded-2xl inline-block shadow-md border border-slate-200 relative group">
+                            <!-- SVG Generated Official QRIS Layout Placeholder -->
+                            <svg class="w-56 h-56 mx-auto" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="200" height="200" rx="12" fill="white"/>
+                                <!-- Top QRIS Brand Header -->
+                                <rect x="10" y="8" width="180" height="24" rx="4" fill="#ED1C24"/>
+                                <text x="100" y="24" font-family="sans-serif" font-weight="900" font-size="12" fill="white" text-anchor="middle" letter-spacing="2">QRIS</text>
+                                <!-- QR Mockup Pattern -->
+                                <rect x="20" y="42" width="45" height="45" fill="black"/>
+                                <rect x="25" y="47" width="35" height="35" fill="white"/>
+                                <rect x="30" y="52" width="25" height="25" fill="black"/>
+                                
+                                <rect x="135" y="42" width="45" height="45" fill="black"/>
+                                <rect x="140" y="47" width="35" height="35" fill="white"/>
+                                <rect x="145" y="52" width="25" height="25" fill="black"/>
+                                
+                                <rect x="20" y="135" width="45" height="45" fill="black"/>
+                                <rect x="25" y="140" width="35" height="35" fill="white"/>
+                                <rect x="30" y="145" width="25" height="25" fill="black"/>
+                                
+                                <!-- Inner QR Random Data Blocks -->
+                                <rect x="75" y="42" width="15" height="15" fill="black"/>
+                                <rect x="100" y="42" width="20" height="10" fill="black"/>
+                                <rect x="75" y="65" width="25" height="25" fill="black"/>
+                                <rect x="110" y="60" width="15" height="25" fill="black"/>
+                                <rect x="20" y="95" width="30" height="15" fill="black"/>
+                                <rect x="60" y="95" width="20" height="20" fill="black"/>
+                                <rect x="90" y="95" width="30" height="30" fill="black"/>
+                                <rect x="130" y="95" width="20" height="15" fill="black"/>
+                                <rect x="160" y="95" width="20" height="30" fill="black"/>
+                                <rect x="75" y="135" width="20" height="20" fill="black"/>
+                                <rect x="105" y="135" width="30" height="15" fill="black"/>
+                                <rect x="145" y="135" width="35" height="20" fill="black"/>
+                                <rect x="75" y="165" width="40" height="15" fill="black"/>
+                                <rect x="125" y="160" width="20" height="20" fill="black"/>
+                                <rect x="155" y="165" width="25" height="15" fill="black"/>
+
+                                <!-- Center Logo Badge -->
+                                <circle cx="100" cy="100" r="16" fill="#064e3b" stroke="white" stroke-width="3"/>
+                                <path d="M100 92 C95 92 92 96 92 100 C92 105 100 109 100 109 C100 109 108 105 108 100 C108 96 105 92 100 92 Z" fill="#f59e0b"/>
+                            </svg>
+                            <p class="text-[11px] font-bold text-slate-700 mt-2">NMID: ID1020304050607</p>
+                        </div>
+
+                        <!-- Dynamic Display Amount -->
+                        <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 max-w-sm mx-auto">
+                            <span class="text-xs text-amber-800 block font-medium">Total Tagihan QRIS Anda:</span>
+                            <span id="display_amount" class="text-2xl font-extrabold text-yaatim-emerald">Rp 50.000</span>
+                        </div>
+
+                        <!-- Supported Payment Partners -->
+                        <div class="pt-2">
+                            <span class="text-[11px] text-slate-500 block mb-2">Mendukung Semua Aplikasi E-Wallet & Mobile Banking Indonesia:</span>
+                            <div class="flex flex-wrap justify-center items-center gap-2 text-xs font-bold text-slate-600">
+                                <span class="px-2.5 py-1 bg-white rounded-lg border border-slate-200 shadow-sm">GoPay</span>
+                                <span class="px-2.5 py-1 bg-white rounded-lg border border-slate-200 shadow-sm">OVO</span>
+                                <span class="px-2.5 py-1 bg-white rounded-lg border border-slate-200 shadow-sm">DANA</span>
+                                <span class="px-2.5 py-1 bg-white rounded-lg border border-slate-200 shadow-sm">ShopeePay</span>
+                                <span class="px-2.5 py-1 bg-white rounded-lg border border-slate-200 shadow-sm">BCA Mobile</span>
+                                <span class="px-2.5 py-1 bg-white rounded-lg border border-slate-200 shadow-sm">Livin' Mandiri</span>
+                                <span class="px-2.5 py-1 bg-white rounded-lg border border-slate-200 shadow-sm">BRImo</span>
+                                <span class="px-2.5 py-1 bg-white rounded-lg border border-slate-200 shadow-sm">LinkAja</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="w-full py-4 bg-yaatim-gold hover:bg-yaatim-goldlight text-white font-extrabold text-base sm:text-lg rounded-2xl shadow-xl hover:shadow-2xl transition duration-300 transform hover:-translate-y-0.5">
+                        <i class="fa-solid fa-circle-check mr-2"></i> Konfirmasi / Saya Sudah Bayar Via QRIS
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section id="keunggulan" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="inline-block px-3.5 py-1.5 rounded-full bg-amber-100 text-amber-800 text-xs font-bold uppercase tracking-wider mb-3">Keunggulan Infak</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">Mengapa Berdonasi di YAATIM?</h2>
+                <p class="text-slate-600 mt-2 text-sm">Komitmen transparansi dan penyaluran langsung kepada yang berhak menerima.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:border-emerald-300 transition duration-300 text-center">
+                    <div class="w-14 h-14 bg-emerald-100 text-yaatim-emerald rounded-2xl flex items-center justify-center text-2xl mx-auto mb-6">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">100% Amanah & Legal</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">Yayasan resmi terdaftar dengan tata kelola keuangan yang diaudit secara berkala.</p>
+                </div>
+
+                <div class="p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:border-emerald-300 transition duration-300 text-center">
+                    <div class="w-14 h-14 bg-amber-100 text-yaatim-gold rounded-2xl flex items-center justify-center text-2xl mx-auto mb-6">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Praktis dengan QRIS</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">Proses cepat tanpa repot mengetik nomor rekening. Cukup pindai dan konfirmasi dari ponsel Anda.</p>
+                </div>
+
+                <div class="p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:border-emerald-300 transition duration-300 text-center">
+                    <div class="w-14 h-14 bg-blue-100 text-blue-700 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-6">
+                        <i class="fa-solid fa-heart-pulse"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Dampak Nyata Berkelanjutan</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">Bukan sekadar bantuan sesaat, donasi Anda membentuk kemandirian dan pendidikan anak yatim.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 bg-yaatim-emerald text-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                <div class="p-4">
+                    <div class="text-3xl sm:text-5xl font-black text-amber-400 mb-2">520+</div>
+                    <div class="text-xs sm:text-sm text-emerald-100 font-medium">Anak Yatim Dalam Asuhan</div>
+                </div>
+                <div class="p-4">
+                    <div class="text-3xl sm:text-5xl font-black text-amber-400 mb-2">12</div>
+                    <div class="text-xs sm:text-sm text-emerald-100 font-medium">Fasilitas & Gedung Panti</div>
+                </div>
+                <div class="p-4">
+                    <div class="text-3xl sm:text-5xl font-black text-amber-400 mb-2">100%</div>
+                    <div class="text-xs sm:text-sm text-emerald-100 font-medium">Laporan Terbuka</div>
+                </div>
+                <div class="p-4">
+                    <div class="text-3xl sm:text-5xl font-black text-amber-400 mb-2">24/7</div>
+                    <div class="text-xs sm:text-sm text-emerald-100 font-medium">Layanan Kebajikan</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="kontak" class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                <!-- Address & Details -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div>
+                        <span class="inline-block px-3.5 py-1.5 rounded-full bg-emerald-100 text-yaatim-emerald text-xs font-bold uppercase tracking-wider mb-3">Kontak & Sekretariat</span>
+                        <h2 class="text-3xl font-extrabold text-slate-900">Lokasi Asrama & Pejabat</h2>
+                        <p class="text-slate-600 text-sm mt-2">Pintu kami senantiasa terbuka untuk kunjungan, silaturahmi, maupun penyerahan bantuan secara langsung.</p>
+                    </div>
+
+                    <div class="space-y-4 pt-2">
+                        <div class="flex items-start gap-4 p-4 rounded-2xl bg-white border border-slate-200">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-100 text-yaatim-emerald flex items-center justify-center text-lg flex-shrink-0">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-900 text-sm">Alamat Lengkap</h4>
+                                <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                                    No. 1, Taman Sabariah, Jalan Pengkalan Chepa, 15400 Kota Bharu, Kelantan, Malaysia
+                                </p>
+                                <span class="inline-block mt-2 text-[10px] font-mono bg-slate-100 text-slate-600 px-2 py-0.5 rounded">Plus Code: 47W7+XW Kota Bharu</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4 p-4 rounded-2xl bg-white border border-slate-200">
+                            <div class="w-10 h-10 rounded-xl bg-amber-100 text-yaatim-gold flex items-center justify-center text-lg flex-shrink-0">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-900 text-sm">Telepon / WhatsApp Layanan</h4>
+                                <p class="text-xs text-slate-600 mt-1">Kantor: +60 9-748 3456</p>
+                                <p class="text-xs text-slate-600">WhatsApp Center: +60 19-900 1234</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4 p-4 rounded-2xl bg-white border border-slate-200">
+                            <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center text-lg flex-shrink-0">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-900 text-sm">Email Resmi</h4>
+                                <p class="text-xs text-slate-600 mt-1">info@yaatimkelantan.org.my</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Google Maps Container -->
+                <div class="lg:col-span-7 rounded-3xl overflow-hidden shadow-xl border border-slate-200 min-h-[380px] bg-white relative">
+                    <iframe 
+                        title="Peta Lokasi YAATIM Kelantan"
+                        class="w-full h-full min-h-[400px] border-0"
+                        loading="lazy"
+                        allowfullscreen
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15878.028945628543!2d102.2470!3d6.1333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31b6afe3bc14115b%3A0x6331fa2e9e6f470!2sKota%20Bharu%2C%20Kelantan!5e0!3m2!1sid!2sid!4v1700000000000">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-yaatim-dark text-slate-400 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-slate-800">
+                <div class="md:col-span-2 space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-2xl bg-yaatim-emerald flex items-center justify-center text-white text-lg font-bold">
+                            <i class="fa-solid fa-hands-holding-child"></i>
+                        </div>
+                        <span class="text-lg font-bold text-white tracking-wide">YAATIM KELANTAN</span>
+                    </div>
+                    <p class="text-xs leading-relaxed max-w-sm text-slate-400">
+                        Yayasan Kebajikan Anak-Anak Yatim Kelantan berkomitmen mengelola sedekah, zakat, serta infak kebaikan untuk masa depan anak-anak yatim.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-bold text-white mb-4">Navigasi Cepat</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#tentang" class="hover:text-amber-400 transition">Tentang Kami</a></li>
+                        <li><a href="#program" class="hover:text-amber-400 transition">Program Donasi</a></li>
+                        <li><a href="#donasi-form" class="hover:text-amber-400 transition">Donasi Via QRIS</a></li>
+                        <li><a href="#kontak" class="hover:text-amber-400 transition">Lokasi & Kontak</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-bold text-white mb-4">Media Sosial</h4>
+                    <div class="flex space-x-3 text-lg">
+                        <a href="#" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-yaatim-green hover:text-white flex items-center justify-center transition"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-yaatim-green hover:text-white flex items-center justify-center transition"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-yaatim-green hover:text-white flex items-center justify-center transition"><i class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500 gap-4">
+                <p>&copy; 2026 Yayasan Kebajikan Anak-Anak Yatim (YAATIM) Kelantan. Seluruh Hak Cipta Dilindungi.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="hover:text-slate-400">Kebijakan Privasi</a>
+                    <span>•</span>
+                    <a href="#" class="hover:text-slate-400">Syarat & Ketentuan</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="thankYouModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/70 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300 p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-emerald-100 text-center relative transform scale-95 transition-transform duration-300">
+            
+            <!-- Modal Header Icon -->
+            <div class="w-20 h-20 bg-emerald-100 text-yaatim-green rounded-full flex items-center justify-center text-4xl mx-auto mb-4 shadow-inner">
+                <i class="fa-solid fa-heart-circle-check"></i>
+            </div>
+
+            <!-- Arabic Prayer Callout -->
+            <p class="arabic-text text-xl text-amber-700 font-bold mb-1">
+                جَزَاكُمُ اللهُ خَيْرًا كَثِيْرًا
+            </p>
+            <p class="text-[11px] text-amber-800 italic mb-4">"Jazakumullahu Khairan Katsiran"</p>
+
+            <h3 class="text-2xl font-black text-slate-900 mb-2">Terima Kasih Atas Donasi Anda!</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mb-6 leading-relaxed">
+                Semoga Allah SWT membalas setiap kebaikan dan keikhlasan Anda dengan keberkahan rezeki yang berlimpah, kesehatan, serta kebahagiaan lahir dan batin. Aamiin Yaa Rabbal 'Alamin.
+            </p>
+
+            <!-- Donation Receipt Summary Box (In Rupiah) -->
+            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-left text-xs space-y-2 mb-6">
+                <div class="flex justify-between border-b border-slate-200 pb-2">
+                    <span class="text-slate-500">Nama Donatur:</span>
+                    <span id="res_name" class="font-bold text-slate-800">-</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-200 pb-2">
+                    <span class="text-slate-500">Kategori Donasi:</span>
+                    <span id="res_type" class="font-bold text-slate-800">-</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-200 pb-2">
+                    <span class="text-slate-500">Program Tujuan:</span>
+                    <span id="res_program" class="font-bold text-slate-800">-</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-200 pb-2">
+                    <span class="text-slate-500">Metode Pembayaran:</span>
+                    <span class="font-bold text-emerald-700"><i class="fa-solid fa-qrcode"></i> QRIS Otomatis</span>
+                </div>
+                <div class="flex justify-between pt-1 text-sm font-extrabold">
+                    <span class="text-slate-800">Total Donasi (Rp):</span>
+                    <span id="res_amount" class="text-yaatim-gold">Rp 0</span>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <button onclick="closeThankYouModal()" class="w-full py-3.5 bg-yaatim-emerald hover:bg-yaatim-green text-white font-bold rounded-xl shadow-lg transition">
+                    Selesai & Kembali ke Beranda
+                </button>
+                <button onclick="window.print()" class="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl text-xs transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-print"></i> Cetak / Simpan Bukti Transaksi
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile Navigation Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Format Number to Indonesian Rupiah Standard
+        function formatRupiah(number) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                maximumFractionDigits: 0
+            }).format(number);
+        }
+
+        // Show Toast Function
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            
+            toastMsg.innerText = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // Set Donation Type Buttons
+        function setDonationType(btn, type) {
+            document.querySelectorAll('.type-btn').forEach(b => {
+                b.classList.remove('active', 'border-emerald-600', 'bg-emerald-50', 'text-yaatim-emerald', 'font-bold');
+                b.classList.add('border-slate-200', 'text-slate-600');
+            });
+
+            btn.classList.add('active', 'border-emerald-600', 'bg-emerald-50', 'text-yaatim-emerald', 'font-bold');
+            btn.classList.remove('border-slate-200', 'text-slate-600');
+            
+            document.getElementById('selected_type').value = type;
+        }
+
+        // Select Fixed Amount Buttons (In Rupiah)
+        function selectAmount(val, btn) {
+            document.querySelectorAll('.amount-btn').forEach(b => {
+                b.classList.remove('active', 'border-amber-500', 'bg-amber-50', 'text-amber-800');
+                b.classList.add('border-slate-200', 'text-slate-700');
+            });
+
+            if (btn) {
+                btn.classList.add('active', 'border-amber-500', 'bg-amber-50', 'text-amber-800');
+                btn.classList.remove('border-slate-200', 'text-slate-700');
+            }
+
+            document.getElementById('custom_amount').value = val;
+            updateDisplayAmount();
+        }
+
+        // Clear button highlight when custom amount input is used
+        function clearAmountButtons() {
+            document.querySelectorAll('.amount-btn').forEach(b => {
+                b.classList.remove('active', 'border-amber-500', 'bg-amber-50', 'text-amber-800');
+                b.classList.add('border-slate-200', 'text-slate-700');
+            });
+        }
+
+        // Update Dynamic QRIS Tagihan Display
+        function updateDisplayAmount() {
+            const val = document.getElementById('custom_amount').value || 0;
+            document.getElementById('display_amount').innerText = formatRupiah(val);
+        }
+
+        // Set amount from Quick Hero Buttons
+        function setQuickAmount(val) {
+            selectAmount(val, null);
+            scrollAndFocusForm();
+        }
+
+        // Program Selection Trigger from Cards
+        function selectProgram(programName) {
+            const selectEl = document.getElementById('program_select');
+            selectEl.value = programName;
+            scrollAndFocusForm();
+            showToast('Program "' + programName + '" telah dipilih.');
+        }
+
+        // Scroll to Donation Form
+        function scrollAndFocusForm() {
+            const formSection = document.getElementById('donasi-form');
+            formSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Handle Form Submission and Display Thank You Modal
+        function handleFormSubmit(event) {
+            event.preventDefault();
+
+            const type = document.getElementById('selected_type').value;
+            const amount = parseFloat(document.getElementById('custom_amount').value) || 0;
+            const program = document.getElementById('program_select').value;
+            const name = document.getElementById('donor_name').value.trim();
+
+            if (!amount || amount < 1000) {
+                showToast('Mohon masukkan nominal donasi minimal Rp 1.000.');
+                return;
+            }
+
+            // Populate Modal Summary Details
+            document.getElementById('res_name').innerText = name || 'Hamba Allah';
+            document.getElementById('res_type').innerText = type;
+            document.getElementById('res_program').innerText = program;
+            document.getElementById('res_amount').innerText = formatRupiah(amount);
+
+            // Show Modal
+            openThankYouModal();
+        }
+
+        // Modal Open & Close Functions
+        function openThankYouModal() {
+            const modal = document.getElementById('thankYouModal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.classList.add('opacity-100', 'pointer-events-auto');
+            modal.querySelector('div').classList.remove('scale-95');
+            modal.querySelector('div').classList.add('scale-100');
+        }
+
+        function closeThankYouModal() {
+            const modal = document.getElementById('thankYouModal');
+            modal.classList.remove('opacity-100', 'pointer-events-auto');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.querySelector('div').classList.remove('scale-100');
+            modal.querySelector('div').classList.add('scale-95');
+
+            // Reset form
+            document.getElementById('donationForm').reset();
+            selectAmount(50000, document.querySelectorAll('.amount-btn')[2]);
+        }
+    </script>
+</body>
+</html>
